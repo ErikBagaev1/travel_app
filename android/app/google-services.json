@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "270927735198",
+    "project_id": "social-network-f10ca",
+    "storage_bucket": "social-network-f10ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270927735198:android:6bad8222bfc9a54ef4ce8f",
+        "android_client_info": {
+          "package_name": "com.example.social_network"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyif9_3yZng8JPX5s26_qLJLYBRBtetJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
