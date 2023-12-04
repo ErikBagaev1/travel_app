@@ -10,4 +10,7 @@ ThemeData lightMode = ThemeData(
     ),
     textTheme: ThemeData.light()
         .textTheme
-        .apply(bodyColor: Colors.grey[800], displayColor: Colors.black));
+        .apply(bodyColor: Colors.grey[800], displayColor: Colors.grey.shade600),
+    appBarTheme: AppBarTheme(
+      color: Colors.grey.shade300,
+    ));
