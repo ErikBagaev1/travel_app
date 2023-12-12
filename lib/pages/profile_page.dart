@@ -15,12 +15,13 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Профиль'),
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: theme.background,
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         future: getUserDetails(),
         // initialData: InitialData,
@@ -30,13 +31,92 @@ class ProfilePage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.data}');
           } else if (snapshot.hasData) {
-            
             Map<String, dynamic>? user = snapshot.data!.data();
             return Center(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(user!['email']),
-                  Text(user['username']),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width:
+                                    1, //                   <--- border width here
+                              ),
+                              color: theme.primary,
+                              borderRadius: BorderRadius.circular(18)),
+                          padding: const EdgeInsets.all(25),
+                          child: const Icon(
+                            Icons.person,
+                            size: 88,
+                          )),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                'Имя:',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                user!['username'],
+                                style: const TextStyle(fontSize: 21),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const Text(
+                            'Email:',
+                            style: TextStyle(fontSize: 30),
+                          ),
+                          Text(
+                            user['email'],
+                            style: const TextStyle(fontSize: 21),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: theme.primary,
+                              border: Border.all(
+                                width:
+                                    1, //                   <--- border width here
+                              ),
+                              borderRadius: BorderRadius.circular(18)),
+                          padding: const EdgeInsets.all(25),
+                          child: const Text(
+                            textAlign: TextAlign.center,
+                            'Редактировать данные',
+                            style: TextStyle(fontSize: 25),
+                          ),
+                        )),
+                  )
                 ],
               ),
             );
