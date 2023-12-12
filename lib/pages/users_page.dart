@@ -7,7 +7,8 @@ class UsersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ПОЛЬЗОВАТЕЛИ'),
+        centerTitle: true,
+        title: const Text('Отели'),
       ),
     );
   }

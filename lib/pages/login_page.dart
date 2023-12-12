@@ -51,16 +51,16 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.person,
+                  Icons.location_on,
                   size: 80,
                   color: theme.inversePrimary,
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 10,
                 ),
                 const Text(
-                  'Н А Ч А Л О',
-                  style: TextStyle(fontSize: 20),
+                  'Imazing Travel',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 50,

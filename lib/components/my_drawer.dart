@@ -17,7 +17,8 @@ class MyDrawer extends StatelessWidget {
           children: [
             DrawerHeader(
                 child: Icon(
-              Icons.favorite,
+              Icons.local_airport,
+              size: 100,
               color: Theme.of(context).colorScheme.inversePrimary,
             )),
             const SizedBox(
@@ -30,7 +31,7 @@ class MyDrawer extends StatelessWidget {
                   Icons.home,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                title: const Text('Д О М'),
+                title: const Text('Главная'),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -43,7 +44,7 @@ class MyDrawer extends StatelessWidget {
                   Icons.person,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                title: const Text('П Р О Ф И Л Ь'),
+                title: const Text('Профиль'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/profile_page');
@@ -54,10 +55,10 @@ class MyDrawer extends StatelessWidget {
               padding: const EdgeInsets.only(left: 25.0),
               child: ListTile(
                 leading: Icon(
-                  Icons.group,
+                  Icons.hotel_sharp,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                title: const Text('П О Л Ь З О В А Т Е Л И'),
+                title: const Text('Отели'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/users_page');
@@ -70,10 +71,10 @@ class MyDrawer extends StatelessWidget {
           padding: const EdgeInsets.only(left: 25.0, bottom: 25),
           child: ListTile(
             leading: Icon(
-              Icons.home,
+              Icons.logout,
               color: Theme.of(context).colorScheme.inversePrimary,
             ),
-            title: const Text('В Ы Х О Д'),
+            title: const Text('Выход'),
             onTap: () {
               Navigator.pop(context);
               logout();
