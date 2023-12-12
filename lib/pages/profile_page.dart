@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:social_network/components/my_expanded.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -38,7 +39,6 @@ class ProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox(
                         height: 25,
@@ -46,8 +46,7 @@ class ProfilePage extends StatelessWidget {
                       Container(
                           decoration: BoxDecoration(
                               border: Border.all(
-                                width:
-                                    1, //                   <--- border width here
+                                width: 1,
                               ),
                               color: theme.primary,
                               borderRadius: BorderRadius.circular(18)),
@@ -59,48 +58,23 @@ class ProfilePage extends StatelessWidget {
                       const SizedBox(
                         height: 25,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                        child: Row(
-                          children: [
-                            const Expanded(
-                              child: Text(
-                                'Имя:',
-                                style: TextStyle(fontSize: 30),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                user!['username'],
-                                style: const TextStyle(fontSize: 21),
-                              ),
-                            ),
-                          ],
-                        ),
+                      MyExpanded(
+                        left: 'Имя',
+                        right: user!['username'],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const Text(
-                            'Email:',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          Text(
-                            user['email'],
-                            style: const TextStyle(fontSize: 21),
-                          )
-                        ],
+                      MyExpanded(
+                        left: 'Email',
+                        right: user['email'],
                       ),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: GestureDetector(
-                        onTap: () {},
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/editing_page',
+                              arguments: user);
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                               color: theme.primary,

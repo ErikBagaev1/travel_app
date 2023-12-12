@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:social_network/auth/auth.dart';
 import 'package:social_network/auth/login_on_register.dart';
+import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/pages/home_page.dart';
 import 'package:social_network/pages/profile_page.dart';
 import 'package:social_network/pages/users_page.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/home_page': (context) => const HomePage(),
         '/profile_page': (context) => ProfilePage(),
         '/users_page': (context) => const UsersPage(),
+        '/editing_page': (context) => const EditingPage(),
       },
     );
   }
