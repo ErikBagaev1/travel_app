@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_network/auth/auth.dart';
 import 'package:social_network/auth/login_on_register.dart';
+import 'package:social_network/models/user_data.dart';
 import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/pages/home_page.dart';
 import 'package:social_network/pages/profile_page.dart';
@@ -24,18 +26,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const AuthPage(),
-      theme: lightMode,
-      darkTheme: darkMode,
-      routes: {
-        '/login_register_page': (context) => const LoginOnRegister(),
-        '/home_page': (context) => const HomePage(),
-        '/profile_page': (context) => ProfilePage(),
-        '/users_page': (context) => const UsersPage(),
-        '/editing_page': (context) => const EditingPage(),
-      },
+    return ChangeNotifierProvider(
+      create: (context) => UserDataProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const AuthPage(),
+        theme: lightMode,
+        darkTheme: darkMode,
+        routes: {
+          '/login_register_page': (context) => const LoginOnRegister(),
+          '/home_page': (context) => const HomePage(),
+          '/profile_page': (context) => ProfilePage(),
+          '/users_page': (context) => const UsersPage(),
+          '/editing_page': (context) => const EditingPage(),
+        },
+      ),
     );
   }
 }

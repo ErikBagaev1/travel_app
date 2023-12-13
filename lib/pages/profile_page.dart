@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_network/components/my_expanded.dart';
+import 'package:social_network/models/user_data.dart';
 
 // class ProfilePage extends StatelessWidget {
 //   ProfilePage({super.key});
@@ -116,6 +118,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
+    final userDataProvider = Provider.of<UserDataProvider>(context);
+    Map<String, dynamic>? user = userDataProvider.userData;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -169,9 +173,17 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/editing_page',
-                            arguments: user);
+                      onTap: () async {
+                        var updatedData = await Navigator.pushNamed(
+                          context,
+                          '/editing_page',
+                          arguments: user,
+                        );
+
+                        if (updatedData != null) {
+                          userDataProvider.setUserData(
+                              updatedData as Map<String, dynamic>?);
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
