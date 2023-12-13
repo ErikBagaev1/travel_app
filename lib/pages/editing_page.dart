@@ -37,7 +37,11 @@ class _EditingPageState extends State<EditingPage> {
         'gender': gender,
         'countChildren': countChildren,
       });
-      Navigator.pop(context);
+      Navigator.pop(context, {
+        'passportData': passportData,
+        'gender': gender,
+        'countChildren': countChildren,
+      });
 
       showCustomDialog(
           context: context,
