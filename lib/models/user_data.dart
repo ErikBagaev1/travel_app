@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserDataProvider extends ChangeNotifier {
@@ -7,6 +9,20 @@ class UserDataProvider extends ChangeNotifier {
 
   void setUserData(Map<String, dynamic>? userData) {
     _userData = userData;
+    notifyListeners();
+  }
+
+  User? currentUser;
+  Map<String, dynamic>? data;
+
+  Future<void> fetchUserData() async {
+    currentUser = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection("Users")
+        .doc(currentUser!.email)
+        .get();
+    data = snapshot.data();
     notifyListeners();
   }
 }

@@ -8,7 +8,7 @@ void displayMessageToUser(String message, BuildContext context) {
           ));
 }
 
-void showCustomDialog(
+showCustomDialog(
     {required BuildContext context,
     required String title,
     required String message}) {
@@ -52,6 +52,7 @@ void showCustomDialog(
             onPressed: () {
               Navigator.pop(context);
               FocusManager.instance.primaryFocus?.unfocus();
+              Navigator.pop(context);
             },
             child: const Text(
               'OK',
@@ -66,4 +67,5 @@ void showCustomDialog(
       );
     },
   );
+  return true;
 }

@@ -5,33 +5,26 @@ import 'package:social_network/components/my_textfield.dart';
 import 'package:social_network/helper/helper_function.dart';
 
 class EditingPage extends StatefulWidget {
-  EditingPage({super.key});
-  final User? currentUser = FirebaseAuth.instance.currentUser;
-
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDetails() async {
-    return await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(currentUser!.email)
-        .get();
-  }
+  const EditingPage({super.key});
 
   @override
   State<EditingPage> createState() => _EditingPageState();
 }
 
 class _EditingPageState extends State<EditingPage> {
+  //----------------------------К О Н Т Р О Й Л Е Р Ы---------------------------
   final TextEditingController seriesPassportController =
       TextEditingController();
   final TextEditingController numberPassportController =
       TextEditingController();
-
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController fatherNameController = TextEditingController();
-
   final TextEditingController genderController = TextEditingController();
   final TextEditingController countChildrenController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
+  //----------------------------------------------------------------------------
+
   void _saveChanges(arguments, context) async {
     showDialog(
       context: context,
@@ -40,26 +33,24 @@ class _EditingPageState extends State<EditingPage> {
 
     try {
       String userEmail = arguments['email'];
-      String seriesPassport = seriesPassportController.text;
-      String numberPassport = numberPassportController.text;
-      String gender = genderController.text;
       int countChildren = int.tryParse(countChildrenController.text) ?? 0;
 
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(userEmail)
           .update({
-        'seriesPassport': seriesPassport,
-        'numberPassport': numberPassport,
-        'firstName': firstNameController,
-        'lastName': lastNameController,
-        'fatherName': fatherNameController,
-        'gender': gender,
+        'seriesPassport': seriesPassportController.text,
+        'numberPassport': numberPassportController.text,
+        'firstName': firstNameController.text,
+        'lastName': lastNameController.text,
+        'fatherName': fatherNameController.text,
+        'gender': genderController.text,
         'countChildren': countChildren,
       });
-      Navigator.pop(context);
 
-      showCustomDialog(
+      Navigator.pop(context); // Закрыть диалоговое окно
+
+      await showCustomDialog(
           context: context,
           title: 'Успешно',
           message: 'Данные успешно обновлены!');
@@ -73,6 +64,30 @@ class _EditingPageState extends State<EditingPage> {
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
+    seriesPassportController.text =
+        (arguments['seriesPassport'] ?? '').isNotEmpty
+            ? '${arguments['seriesPassport']}'
+            : '';
+
+    numberPassportController.text =
+        (arguments['numberPassport'] ?? '').isNotEmpty
+            ? '${arguments['numberPassport']}'
+            : '';
+    fatherNameController.text = (arguments['fatherName'] ?? '').isNotEmpty
+        ? '${arguments['fatherName']}'
+        : '';
+
+    lastNameController.text = (arguments['lastName'] ?? '').isNotEmpty
+        ? '${arguments['lastName']}'
+        : '';
+
+    firstNameController.text = (arguments['firstName'] ?? '').isNotEmpty
+        ? '${arguments['firstName']}'
+        : '';
+    countChildrenController.text =
+        (arguments['countChildren'] ?? '').toString().isNotEmpty
+            ? '${arguments['countChildren']}'
+            : '';
     return Scaffold(
       appBar: AppBar(
         title: Text(arguments['email']),
@@ -91,7 +106,10 @@ class _EditingPageState extends State<EditingPage> {
                   children: [
                     Expanded(
                       child: MyTextField(
-                          hintText: 'Серия паспорта',
+                          hintText:
+                              (arguments['seriesPassport'] ?? '').isNotEmpty
+                                  ? '${arguments['seriesPassport']}'
+                                  : 'Серия паспорта',
                           obscureText: false,
                           controller: seriesPassportController),
                     ),
@@ -100,7 +118,10 @@ class _EditingPageState extends State<EditingPage> {
                     ),
                     Expanded(
                       child: MyTextField(
-                          hintText: 'Номер паспорта',
+                          hintText:
+                              (arguments['numberPassport'] ?? '').isNotEmpty
+                                  ? '${arguments['numberPassport']}'
+                                  : 'Номер паспорта',
                           obscureText: false,
                           controller: numberPassportController),
                     ),
@@ -113,7 +134,9 @@ class _EditingPageState extends State<EditingPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: MyTextField(
-                    hintText: 'Фамилия',
+                    hintText: (arguments['lastName'] ?? '').isNotEmpty
+                        ? '${arguments['lastName']}'
+                        : 'Фамилия',
                     obscureText: false,
                     controller: lastNameController),
               ),
@@ -123,7 +146,9 @@ class _EditingPageState extends State<EditingPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: MyTextField(
-                    hintText: 'Имя',
+                    hintText: (arguments['firstName'] ?? '').isNotEmpty
+                        ? '${arguments['firstName']}'
+                        : 'Имя',
                     obscureText: false,
                     controller: firstNameController),
               ),
@@ -133,7 +158,9 @@ class _EditingPageState extends State<EditingPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: MyTextField(
-                    hintText: 'Отчество (как в паспорте)',
+                    hintText: (arguments['fatherName'] ?? '').isNotEmpty
+                        ? '${arguments['fatherName']}'
+                        : 'Отчество (как в паспорте)',
                     obscureText: false,
                     controller: fatherNameController),
               ),
@@ -143,7 +170,9 @@ class _EditingPageState extends State<EditingPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: MyTextField(
-                    hintText: 'Пол',
+                    hintText: (arguments['gender'] ?? '').isNotEmpty
+                        ? '${arguments['gender']}'
+                        : 'Пол',
                     obscureText: false,
                     controller: genderController),
               ),
@@ -153,7 +182,10 @@ class _EditingPageState extends State<EditingPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: MyTextField(
-                    hintText: 'Количество детей',
+                    hintText:
+                        (arguments['countChildren'] ?? '').toString().isNotEmpty
+                            ? '${arguments['countChildren']}'
+                            : 'Количество детей',
                     obscureText: false,
                     controller: countChildrenController),
               ),

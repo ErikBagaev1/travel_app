@@ -11,10 +11,14 @@ Map<String, String> fieldNames = {
   'numberPassport': 'Номер паспорта',
   'seriesPassport': 'Серия паспорта',
   'gender': 'Пол',
+  'firstName': 'Имя',
+  'lastName': 'Фамилия',
+  'fatherName': 'Отчество',
 };
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
+
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDetails() async {
@@ -28,7 +32,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
     final userDataProvider = Provider.of<UserDataProvider>(context);
-    Map<String, dynamic>? user = userDataProvider.userData;
+    // Map<String, dynamic>? user = userDataProvider.userData;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,82 +48,86 @@ class ProfilePage extends StatelessWidget {
             return Text('Error: ${snapshot.data}');
           } else if (snapshot.hasData) {
             Map<String, dynamic>? user = snapshot.data!.data();
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+            return ListView(
+              children: [
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 25,
                           ),
-                          color: theme.primary,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        padding: const EdgeInsets.all(25),
-                        child: const Icon(
-                          Icons.person,
-                          size: 88,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      for (var entry in user!.entries)
-                        Column(
-                          children: [
-                            const Divider(
-                              height: 20,
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                              ),
+                              color: theme.primary,
+                              borderRadius: BorderRadius.circular(18),
                             ),
-                            MyExpanded(
-                              left: fieldNames[entry.key] ??
-                                  entry.key.toUpperCase(),
-                              right: entry.value.toString(),
+                            padding: const EdgeInsets.all(25),
+                            child: const Icon(
+                              Icons.person,
+                              size: 88,
                             ),
-                          ],
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          for (var entry in user!.entries)
+                            Column(
+                              children: [
+                                const Divider(
+                                  height: 20,
+                                ),
+                                MyExpanded(
+                                  left: fieldNames[entry.key] ??
+                                      entry.key.toUpperCase(),
+                                  right: entry.value.toString(),
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: InkWell(
+                          onTap: () async {
+                            var updatedData = await Navigator.pushNamed(
+                              context,
+                              '/editing_page',
+                              arguments: user,
+                            );
+
+                            if (updatedData != null) {
+                              userDataProvider.setUserData(
+                                  updatedData as Map<String, dynamic>?);
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: theme.primary,
+                              border: Border.all(
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            padding: const EdgeInsets.all(15),
+                            child: const Text(
+                              'Редактировать данные',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 25),
+                            ),
+                          ),
                         ),
+                      )
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: InkWell(
-                      onTap: () async {
-                        var updatedData = await Navigator.pushNamed(
-                          context,
-                          '/editing_page',
-                          arguments: user,
-                        );
-
-                        if (updatedData != null) {
-                          userDataProvider.setUserData(
-                              updatedData as Map<String, dynamic>?);
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: theme.primary,
-                          border: Border.all(
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        padding: const EdgeInsets.all(15),
-                        child: const Text(
-                          'Редактировать данные',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             );
           } else {
             return const Text('No data');
