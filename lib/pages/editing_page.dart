@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:social_network/components/my_textfield.dart';
 import 'package:social_network/helper/helper_function.dart';
 
+enum Gender { male, female }
+
 class EditingPage extends StatefulWidget {
   const EditingPage({super.key});
 
@@ -20,9 +22,10 @@ class _EditingPageState extends State<EditingPage> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController fatherNameController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
   final TextEditingController countChildrenController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
+  Gender selectedGender = Gender.male; // Изначально выбран "Мужской"
+
   //----------------------------------------------------------------------------
 
   void _saveChanges(arguments, context) async {
@@ -44,11 +47,11 @@ class _EditingPageState extends State<EditingPage> {
         'firstName': firstNameController.text,
         'lastName': lastNameController.text,
         'fatherName': fatherNameController.text,
-        'gender': genderController.text,
+        'gender': selectedGender == Gender.male ? 'Мужской' : 'Женский',
         'countChildren': countChildren,
       });
 
-      Navigator.pop(context); // Закрыть диалоговое окно
+      Navigator.pop(context);
 
       await showCustomDialog(
           context: context,
@@ -168,13 +171,49 @@ class _EditingPageState extends State<EditingPage> {
                 height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                child: MyTextField(
-                    hintText: (arguments['gender'] ?? '').isNotEmpty
-                        ? '${arguments['gender']}'
-                        : 'Пол',
-                    obscureText: false,
-                    controller: genderController),
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      'Пол:',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      children: [
+                        Radio(
+                          activeColor:
+                              Theme.of(context).colorScheme.inversePrimary,
+                          value: Gender.male,
+                          groupValue: selectedGender,
+                          onChanged: (Gender? value) {
+                            setState(() {
+                              selectedGender = value!;
+                            });
+                          },
+                        ),
+                        const Text('Мужской'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio(
+                          activeColor:
+                              Theme.of(context).colorScheme.inversePrimary,
+                          value: Gender.female,
+                          groupValue: selectedGender,
+                          onChanged: (Gender? value) {
+                            setState(() {
+                              selectedGender = value!;
+                            });
+                          },
+                        ),
+                        const Text('Женский'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 10,
