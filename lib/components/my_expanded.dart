@@ -12,23 +12,24 @@ class MyExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
         children: [
           Expanded(
+            flex: 8,
             child: Text(
               "$left:",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(
             width: 10,
           ),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: Text(
               right,
-              style: const TextStyle(fontSize: 21),
+              style: const TextStyle(fontSize: 18),
             ),
           ),
         ],

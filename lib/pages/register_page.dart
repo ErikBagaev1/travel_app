@@ -15,8 +15,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController usernameController = TextEditingController();
-
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
@@ -53,7 +51,6 @@ class _RegisterPageState extends State<RegisterPage> {
           .doc(userCredential.user!.email)
           .set({
         'email': userCredential.user!.email,
-        'username': usernameController.text,
       });
     }
   }
@@ -82,14 +79,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 const Text(
                   'Imazing Travel',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                MyTextField(
-                  hintText: 'Имя',
-                  obscureText: false,
-                  controller: usernameController,
                 ),
                 const SizedBox(
                   height: 10,
