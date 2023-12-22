@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_network/components/my_textfield.dart';
 import 'package:social_network/helper/helper_function.dart';
+import 'package:social_network/models/user_data.dart';
 
 enum Gender { male, female }
 
 class EditingPage extends StatefulWidget {
-  const EditingPage({super.key});
+  const EditingPage({Key? key}) : super(key: key);
 
   @override
   State<EditingPage> createState() => _EditingPageState();
@@ -50,7 +52,9 @@ class _EditingPageState extends State<EditingPage> {
         'gender': selectedGender == Gender.male ? 'Мужской' : 'Женский',
         'countChildren': countChildren,
       });
-
+      final model = Provider.of<UserDataProvider>(context, listen: false);
+      Map<String, dynamic>? userDetails = await model.fetchUserDetails();
+      model.setUserData(userDetails);
       Navigator.pop(context);
 
       await showCustomDialog(

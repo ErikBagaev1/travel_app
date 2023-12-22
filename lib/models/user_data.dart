@@ -15,6 +15,10 @@ class UserDataProvider extends ChangeNotifier {
   User? currentUser;
   Map<String, dynamic>? data;
 
+  Future<void> initUserData() async {
+    await fetchUserData();
+  }
+
   Future<void> fetchUserData() async {
     currentUser = FirebaseAuth.instance.currentUser;
     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
@@ -24,5 +28,17 @@ class UserDataProvider extends ChangeNotifier {
         .get();
     data = snapshot.data();
     notifyListeners();
+  }
+
+  Future<Map<String, dynamic>?> fetchUserDetails() async {
+    currentUser = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection("Users")
+        .doc(currentUser!.email)
+        .get();
+    data = snapshot.data();
+    notifyListeners();
+    return data;
   }
 }
