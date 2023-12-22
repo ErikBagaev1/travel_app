@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_network/components/my_button.dart';
 import 'package:social_network/components/my_textfield.dart';
-import 'package:social_network/helper/helper_function.dart';
+import 'package:social_network/models/user_data.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() onTap;
@@ -17,25 +17,10 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController passwordController = TextEditingController();
 
-  void login() async {
-    showDialog(
-        context: context,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
-
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      if (context.mounted) Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      displayMessageToUser(e.code, context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userDataProvider =
+        Provider.of<UserDataProvider>(context, listen: false);
     final theme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: theme.background,
@@ -93,7 +78,10 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                MyButton(text: 'Войти', onTap: login),
+                MyButton(
+                    text: 'Войти',
+                    onTap: () => userDataProvider.login(
+                        context, emailController, passwordController)),
                 const SizedBox(
                   height: 25,
                 ),

@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_network/components/my_button.dart';
 import 'package:social_network/components/my_textfield.dart';
-import 'package:social_network/helper/helper_function.dart';
+import 'package:social_network/models/user_data.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function() onTap;
@@ -21,42 +20,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final TextEditingController confirmController = TextEditingController();
 
-  void register() async {
-    showDialog(
-        context: context,
-        builder: (context) => const Center(child: CircularProgressIndicator()));
-
-    if (passwordController.text != confirmController.text) {
-      Navigator.pop(context);
-      displayMessageToUser("Пароли не совпадают", context);
-    } else {
-      try {
-        UserCredential? userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-
-        createUsersDocument(userCredential);
-        if (context.mounted) Navigator.pop(context);
-      } on FirebaseAuthException catch (e) {
-        Navigator.pop(context);
-        displayMessageToUser(e.code, context);
-      }
-    }
-  }
-
-  Future<void> createUsersDocument(UserCredential? userCredential) async {
-    if (userCredential != null && userCredential.user != null) {
-      await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(userCredential.user!.email)
-          .set({
-        'email': userCredential.user!.email,
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userDataProvider =
+        Provider.of<UserDataProvider>(context, listen: false);
     final theme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: theme.background,
@@ -119,7 +86,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                MyButton(text: 'Зарегистрироваться', onTap: register),
+                MyButton(
+                    text: 'Зарегистрироваться',
+                    onTap: () => userDataProvider.register(
+                        context,
+                        passwordController,
+                        confirmController,
+                        emailController)),
                 const SizedBox(
                   height: 15,
                 ),
