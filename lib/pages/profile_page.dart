@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_network/components/my_expanded.dart';
-import 'package:social_network/models/user_data.dart';
+import 'package:social_network/provider/user_data_provider.dart';
 
 Map<String, String> fieldNames = {
   'email': 'Почта',

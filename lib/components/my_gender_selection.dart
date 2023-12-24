@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_network/models/editing_model.dart';
+import 'package:social_network/provider/editing_provider.dart';
 
 class GenderSelectionWidget extends StatelessWidget {
   const GenderSelectionWidget({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_network/components/my_button.dart';
 import 'package:social_network/components/my_textfield.dart';
-import 'package:social_network/models/user_data.dart';
+import 'package:social_network/provider/user_data_provider.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() onTap;
