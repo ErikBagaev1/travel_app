@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_network/components/my_radio.dart';
+import 'package:social_network/components/my_gender_selection.dart';
 import 'package:social_network/components/my_textfield.dart';
 import 'package:social_network/helper/helper_function.dart';
+import 'package:social_network/models/editing_model.dart';
 import 'package:social_network/models/user_data.dart';
 
 enum Gender { male, female }
@@ -31,7 +32,7 @@ class _EditingPageState extends State<EditingPage> {
 
   //----------------------------------------------------------------------------
 
-  void _saveChanges(arguments, context) async {
+  void _saveChanges(arguments, context, selectedGender) async {
     showDialog(
       context: context,
       builder: (context) => const Center(child: CircularProgressIndicator()),
@@ -70,6 +71,8 @@ class _EditingPageState extends State<EditingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final genderProvider = Provider.of<GenderProvider>(context);
+
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     seriesPassportController.text =
@@ -172,7 +175,8 @@ class _EditingPageState extends State<EditingPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: InkWell(
                     onTap: () {
-                      _saveChanges(arguments, context);
+                      _saveChanges(
+                          arguments, context, genderProvider.selectedGender);
                     },
                     child: Container(
                       decoration: BoxDecoration(
