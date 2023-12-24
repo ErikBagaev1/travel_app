@@ -51,6 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 10,
                 ),
                 MyTextField(
+                  padding: 0,
                   hintText: 'Email',
                   obscureText: false,
                   controller: emailController,
@@ -59,6 +60,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 10,
                 ),
                 MyTextField(
+                  padding: 0,
                   hintText: 'Пароль',
                   obscureText: true,
                   controller: passwordController,
@@ -67,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 10,
                 ),
                 MyTextField(
+                  padding: 0,
                   hintText: 'Повторите пароль',
                   obscureText: true,
                   controller: confirmController,

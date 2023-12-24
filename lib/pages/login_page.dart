@@ -51,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                 ),
                 MyTextField(
+                  padding: 0,
                   hintText: 'Email',
                   obscureText: false,
                   controller: emailController,
@@ -59,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 MyTextField(
+                       padding: 0,
                   hintText: 'Пароль',
                   obscureText: true,
                   controller: passwordController,

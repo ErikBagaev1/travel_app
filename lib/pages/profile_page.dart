@@ -5,14 +5,14 @@ import 'package:social_network/components/my_expanded.dart';
 import 'package:social_network/models/user_data.dart';
 
 Map<String, String> fieldNames = {
-  'countChildren': 'Количество детей',
   'email': 'Почта',
-  'numberPassport': 'Номер паспорта',
-  'seriesPassport': 'Серия паспорта',
-  'gender': 'Пол',
-  'firstName': 'Имя',
   'lastName': 'Фамилия',
+  'firstName': 'Имя',
   'fatherName': 'Отчество',
+  'seriesPassport': 'Серия паспорта',
+  'numberPassport': 'Номер паспорта',
+  'gender': 'Пол',
+  'countChildren': 'Количество детей',
 };
 
 class ProfilePage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
+    userDataProvider = context.read<UserDataProvider>();
     _initializeUserData();
   }
 
@@ -87,19 +87,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: 25,
                     ),
-                    for (var entry in user.entries)
-                      Column(
-                        children: [
-                          const Divider(
-                            height: 20,
-                          ),
-                          MyExpanded(
-                            left: fieldNames[entry.key] ??
-                                entry.key.toUpperCase(),
-                            right: entry.value.toString(),
-                          ),
-                        ],
-                      ),
+                    for (var key in fieldNames.keys)
+                      if (user.containsKey(key))
+                        Column(
+                          children: [
+                            const Divider(
+                              height: 20,
+                            ),
+                            MyExpanded(
+                              left: fieldNames[key] ?? key.toUpperCase(),
+                              right: user[key].toString(),
+                            ),
+                          ],
+                        ),
                   ],
                 ),
                 Padding(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_network/auth/auth.dart';
 import 'package:social_network/auth/login_on_register.dart';
+import 'package:social_network/models/editing_model.dart';
 import 'package:social_network/models/user_data.dart';
 import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/pages/home_page.dart';
@@ -26,8 +27,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => UserDataProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserDataProvider()),
+        ChangeNotifierProvider(create: (context) => GenderProvider()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: const AuthPage(),
