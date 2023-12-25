@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_network/helper/helper_function.dart';
+import 'package:social_network/models/controller_model.dart';
+import 'package:social_network/pages/editing_page.dart';
+import 'package:social_network/provider/editing_provider.dart';
 
 class UserDataProvider extends ChangeNotifier {
   Map<String, dynamic>? _userData;
@@ -74,6 +78,47 @@ class UserDataProvider extends ChangeNotifier {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       if (context.mounted) Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      displayMessageToUser(e.code, context);
+    }
+  }
+
+  void saveChanges(arguments, context, ControllerModel models) async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      String userEmail = arguments['email'];
+      int countChildren =
+          int.tryParse(models.countChildrenController.text) ?? 0;
+      final genderProvider =
+          Provider.of<GenderProvider>(context, listen: false);
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userEmail)
+          .update({
+        'seriesPassport': models.seriesPassportController.text,
+        'numberPassport': models.numberPassportController.text,
+        'firstName': models.firstNameController.text,
+        'lastName': models.lastNameController.text,
+        'fatherName': models.fatherNameController.text,
+        'gender': genderProvider.selectedGender == Gender.male
+            ? 'Мужской'
+            : 'Женский',
+        'countChildren': countChildren,
+      });
+      final model = Provider.of<UserDataProvider>(context, listen: false);
+      Map<String, dynamic>? userDetails = await model.fetchUserDetails();
+      model.setUserData(userDetails);
+      Navigator.pop(context);
+
+      await showCustomDialog(
+          context: context,
+          title: 'Успешно',
+          message: 'Данные успешно обновлены!');
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       displayMessageToUser(e.code, context);
