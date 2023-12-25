@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/provider/editing_provider.dart';
 
 class GenderSelectionWidget extends StatelessWidget {

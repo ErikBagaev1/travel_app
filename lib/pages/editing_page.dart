@@ -28,11 +28,10 @@ class _EditingPageState extends State<EditingPage> {
   final TextEditingController fatherNameController = TextEditingController();
   final TextEditingController countChildrenController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
-  Gender selectedGender = Gender.male; // Изначально выбран "Мужской"
 
   //----------------------------------------------------------------------------
 
-  void _saveChanges(arguments, context, selectedGender) async {
+  void _saveChanges(arguments, context) async {
     showDialog(
       context: context,
       builder: (context) => const Center(child: CircularProgressIndicator()),
@@ -41,7 +40,8 @@ class _EditingPageState extends State<EditingPage> {
     try {
       String userEmail = arguments['email'];
       int countChildren = int.tryParse(countChildrenController.text) ?? 0;
-
+      final genderProvider =
+          Provider.of<GenderProvider>(context, listen: false);
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(userEmail)
@@ -51,7 +51,9 @@ class _EditingPageState extends State<EditingPage> {
         'firstName': firstNameController.text,
         'lastName': lastNameController.text,
         'fatherName': fatherNameController.text,
-        'gender': selectedGender == Gender.male ? 'Мужской' : 'Женский',
+        'gender': genderProvider.selectedGender == Gender.male
+            ? 'Мужской'
+            : 'Женский',
         'countChildren': countChildren,
       });
       final model = Provider.of<UserDataProvider>(context, listen: false);
@@ -71,8 +73,6 @@ class _EditingPageState extends State<EditingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final genderProvider = Provider.of<GenderProvider>(context);
-
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     seriesPassportController.text =
@@ -157,9 +157,14 @@ class _EditingPageState extends State<EditingPage> {
               const SizedBox(
                 height: 10,
               ),
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: GenderSelectionWidget()),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Consumer<GenderProvider>(
+                  builder: (context, genderProvider, child) {
+                    return const GenderSelectionWidget();
+                  },
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -175,8 +180,10 @@ class _EditingPageState extends State<EditingPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: InkWell(
                     onTap: () {
-                      _saveChanges(
-                          arguments, context, genderProvider.selectedGender);
+                      final genderProvider =
+                          Provider.of<GenderProvider>(context, listen: false);
+                      _saveChanges(arguments, context);
+                      print(genderProvider.selectedGender);
                     },
                     child: Container(
                       decoration: BoxDecoration(

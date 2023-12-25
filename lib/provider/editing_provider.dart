@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum Gender { male, female }
+import 'package:social_network/pages/editing_page.dart';
 
 class GenderProvider extends ChangeNotifier {
   Gender _selectedGender = Gender.male;
