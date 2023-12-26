@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:social_network/helper/helper_function.dart';
 import 'package:social_network/models/controller_model.dart';
 import 'package:social_network/pages/editing_page.dart';
-import 'package:social_network/provider/editing_provider.dart';
+import 'package:social_network/provider/gender_provider.dart';
 
 class UserDataProvider extends ChangeNotifier {
   Map<String, dynamic>? _userData;

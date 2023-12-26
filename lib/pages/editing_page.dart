@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:social_network/components/my_gender_selection.dart';
 import 'package:social_network/components/my_textfield.dart';
 import 'package:social_network/models/controller_model.dart';
-import 'package:social_network/provider/editing_provider.dart';
+import 'package:social_network/provider/gender_provider.dart';
 import 'package:social_network/provider/user_data_provider.dart';
 
 enum Gender { male, female }
