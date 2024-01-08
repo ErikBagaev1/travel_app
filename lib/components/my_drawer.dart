@@ -34,6 +34,7 @@ class MyDrawer extends StatelessWidget {
                 title: const Text('Главная'),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/home_page');
                 },
               ),
             ),
@@ -41,13 +42,13 @@ class MyDrawer extends StatelessWidget {
               padding: const EdgeInsets.only(left: 25.0),
               child: ListTile(
                 leading: Icon(
-                  Icons.person,
+                  Icons.terrain,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                title: const Text('Профиль'),
+                title: const Text('Эксурсии'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/profile_page');
+                  Navigator.pushReplacementNamed(context, '/hotels_page');
                 },
               ),
             ),
@@ -61,7 +62,21 @@ class MyDrawer extends StatelessWidget {
                 title: const Text('Отели'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/users_page');
+                  Navigator.pushReplacementNamed(context, '/hotels_page');
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: ListTile(
+                leading: Icon(
+                  Icons.person,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                title: const Text('Профиль'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/profile_page');
                 },
               ),
             ),

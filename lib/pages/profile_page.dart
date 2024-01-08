@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:social_network/components/my_drawer.dart';
 import 'package:social_network/components/my_expanded.dart';
 import 'package:social_network/provider/user_data_provider.dart';
 
@@ -47,6 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
           centerTitle: true,
           title: const Text('Профиль'),
         ),
+        drawer: const MyDrawer(),
         backgroundColor: theme.background,
         body: Consumer<UserDataProvider>(
           builder: (context, userDataProvider, child) {
