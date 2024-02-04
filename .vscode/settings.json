@@ -5,5 +5,6 @@
     },
     "editor.formatOnSave": true,
     // "cmake.sourceDirectory": "D:/portfolio/portfolio/firstJob/first_job/linux",
-    "cmake.autoConfigure": false
+    "cmake.autoConfigure": false,
+    "cmake.sourceDirectory": "D:/portfolio/portfolio/social_network/windows/flutter"
 }
