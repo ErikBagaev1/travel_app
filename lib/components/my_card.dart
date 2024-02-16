@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_network/models/hotels_mdel.dart';
+import 'package:social_network/models/hotels_model.dart';
 import 'package:social_network/provider/hotels_provider.dart';
 
 class MyGrid extends StatelessWidget {
-  const MyGrid({super.key});
+  const MyGrid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +17,7 @@ class MyGrid extends StatelessWidget {
       ),
       itemCount: 10,
       itemBuilder: (BuildContext context, int index) {
-        return GridItem(
-          index: index,
-          name: 'название $index',
-          price: 'цена $index',
-          distance: 'расстояние $index',
-          nightPrice: 'цена $index',
-          stars: index + 1,
-        );
+        return GridItem(index: index);
       },
     );
   }
@@ -32,39 +25,31 @@ class MyGrid extends StatelessWidget {
 
 class GridItem extends StatelessWidget {
   final int index;
-  final int stars;
-  final String name;
-  final String price;
-  final String distance;
-  final String nightPrice;
+  Hotel? selectedHotel;
 
-  const GridItem(
-      {Key? key,
-      required this.index,
-      required this.name,
-      required this.price,
-      required this.distance,
-      required this.nightPrice,
-      required this.stars})
-      : super(key: key);
+  GridItem({
+    Key? key,
+    required this.index,
+    this.selectedHotel, // Сделать selectedHotel nullable
+  }) : super(key: key);
+
+  Future<void> _selectHotel(BuildContext context) async {
+    HotelProvider hotelProvider =
+        Provider.of<HotelProvider>(context, listen: false);
+
+    selectedHotel = await hotelProvider.getHotelByIndex();
+    hotelProvider.selectHotel(selectedHotel!);
+  }
 
   @override
   Widget build(BuildContext context) {
-    HotelProvider hotelProvider =
-        Provider.of<HotelProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         splashColor: Theme.of(context).colorScheme.secondary,
-        onTap: () {
-          Hotel selectedHotel = Hotel(
-            stars: stars > 5 ? 5 : index + 1,
-            name: 'Название отеля ${index + 1}',
-            distance: 'Растояние до города',
-            nightPrice: 'Цена за ночь',
-          );
-          hotelProvider.selectHotel(selectedHotel);
+        onTap: () async {
+          await _selectHotel(context);
           Navigator.pushNamed(
             context,
             '/hotel_about_page',
@@ -77,15 +62,17 @@ class GridItem extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                  flex: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.black),
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.black,
                     ),
-                  )),
+                  ),
+                ),
+              ),
               Expanded(
                 flex: 6,
                 child: Padding(
@@ -96,7 +83,7 @@ class GridItem extends StatelessWidget {
                     children: [
                       Row(
                         children: List.generate(
-                          stars > 5 ? 5 : index + 1,
+                          (selectedHotel?.stars ?? 6) > 5 ? 5 : index + 1,
                           (index) => const Icon(
                             Icons.star,
                             color: Color.fromRGBO(255, 215, 0, 1.0),
@@ -105,7 +92,7 @@ class GridItem extends StatelessWidget {
                               Shadow(
                                 color: Color.fromRGBO(0, 0, 0, 1),
                                 blurRadius: 6,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -113,15 +100,21 @@ class GridItem extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        name,
-                      ),
-                      Text(
-                        distance,
-                      ),
-                      Text(
-                        nightPrice,
-                      ),
+                      if (selectedHotel != null)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              selectedHotel!.name,
+                            ),
+                            Text(
+                              selectedHotel!.location,
+                            ),
+                            Text(
+                              selectedHotel!.nightPrice.toString(),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),

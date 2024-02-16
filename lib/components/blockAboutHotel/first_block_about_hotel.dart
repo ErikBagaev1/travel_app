@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social_network/models/hotels_mdel.dart';
+import 'package:social_network/models/hotels_model.dart';
 
 class FirstBlockAboutHotel extends StatelessWidget {
   const FirstBlockAboutHotel({
@@ -32,6 +32,10 @@ class FirstBlockAboutHotel extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.black),
+                child: Image.network(
+                  selectedHotel.photos[1], //Переделать
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
@@ -80,7 +84,7 @@ class FirstBlockAboutHotel extends StatelessWidget {
               height: 8,
             ),
             Text(
-              selectedHotel.distance,
+              selectedHotel.location,
               style: const TextStyle(
                 color: Color(0xFF0D72FF),
                 fontSize: 14,
@@ -91,22 +95,21 @@ class FirstBlockAboutHotel extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const Row(
+            Row(
               children: [
                 Text(
-                  // 'от ${selectedHotel.nightPrice}',
-                  'от 123 444 ₽',
-                  style: TextStyle(
+                  'от ${selectedHotel.nightPrice} ₽',
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 30,
                     fontFamily: 'SF Pro Display',
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   'за тур с перелётом',
                   style: TextStyle(
                     color: Color(0xFF828796),

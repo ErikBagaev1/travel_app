@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:social_network/models/hotels_mdel.dart';
+import 'package:social_network/models/hotels_model.dart';
 
 class HotelProvider extends ChangeNotifier {
   Hotel? _selectedHotel;
@@ -14,15 +14,31 @@ class HotelProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>?> fetchRoomDetails(
-      {required String tableName, required String roomId}) async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection(tableName)
-        .doc(roomId)
-        .get();
-    Map<String, dynamic>? roomData = snapshot.data();
-    notifyListeners();
-    return roomData;
+  Future<Hotel> getHotelByIndex() async {
+    try {
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('Hotels')
+          .doc('Vladikavkaz')
+          .get();
+      if (doc.exists) {
+        String nightPrice = doc['price'].toString();
+        List<dynamic> photosData = doc['photo'];
+        List<String> photos =
+            photosData.map((photo) => photo.toString()).toList();
+        return Hotel(
+          stars: doc['stars'],
+          name: doc['name'],
+          id: doc['hotels_id'],
+          photos: photos,
+          location: doc['location'],
+          about: doc['about'],
+          nightPrice: nightPrice,
+        );
+      } else {
+        throw Exception('Данные об отелях не найдены');
+      }
+    } catch (error) {
+      throw Exception('Ошибка при получении данных об отеле: $error');
+    }
   }
 }
