@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_network/auth/auth.dart';
 import 'package:social_network/auth/login_on_register.dart';
-import 'package:social_network/provider/gender_provider.dart';
-import 'package:social_network/provider/user_data_provider.dart';
+import 'package:social_network/models/hotels_model.dart';
 import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/pages/home_page.dart';
+import 'package:social_network/pages/hotel_about_page.dart';
+import 'package:social_network/pages/hotels_page.dart';
 import 'package:social_network/pages/profile_page.dart';
-import 'package:social_network/pages/users_page.dart';
+import 'package:social_network/provider/gender_provider.dart';
+import 'package:social_network/provider/hotels_provider.dart';
+import 'package:social_network/provider/user_data_provider.dart';
 import 'package:social_network/theme/dark_mode.dart';
 import 'package:social_network/theme/light_mode.dart';
 
@@ -31,6 +34,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => UserDataProvider()),
         ChangeNotifierProvider(create: (context) => GenderProvider()),
+        FutureProvider<Hotel?>(
+          create: (context) => HotelProvider().getHotelByIndex(),
+          initialData: null,
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -41,8 +48,9 @@ class MyApp extends StatelessWidget {
           '/login_register_page': (context) => const LoginOnRegister(),
           '/home_page': (context) => const HomePage(),
           '/profile_page': (context) => const ProfilePage(),
-          '/users_page': (context) => const UsersPage(),
           '/editing_page': (context) => const EditingPage(),
+          '/hotels_page': (context) => const HotelsPage(),
+          '/hotel_about_page': (context) => const HotelAbout(),
         },
       ),
     );
