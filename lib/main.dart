@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_network/auth/auth.dart';
 import 'package:social_network/auth/login_on_register.dart';
+import 'package:social_network/models/hotels_model.dart';
 import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/pages/home_page.dart';
 import 'package:social_network/pages/hotel_about_page.dart';
@@ -33,7 +34,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => UserDataProvider()),
         ChangeNotifierProvider(create: (context) => GenderProvider()),
-        ChangeNotifierProvider(create: (_) => HotelProvider()),
+        FutureProvider<Hotel?>(
+          create: (context) => HotelProvider().getHotelByIndex(),
+          initialData: null,
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

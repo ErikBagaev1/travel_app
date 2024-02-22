@@ -8,16 +8,23 @@ class MyGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        crossAxisSpacing: 8.0,
-        mainAxisSpacing: 8.0,
-        childAspectRatio: 2,
-      ),
-      itemCount: 10,
-      itemBuilder: (BuildContext context, int index) {
-        return GridItem(index: index);
+    return Consumer<Hotel?>(
+      builder: (context, hotel, _) {
+        return GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+            childAspectRatio: 2,
+          ),
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int index) {
+            return GridItem(
+              index: index,
+              selectedHotel: hotel,
+            );
+          },
+        );
       },
     );
   }
@@ -25,20 +32,22 @@ class MyGrid extends StatelessWidget {
 
 class GridItem extends StatelessWidget {
   final int index;
-  Hotel? selectedHotel;
+  final Hotel? selectedHotel;
 
-  GridItem({
+  const GridItem({
     Key? key,
     required this.index,
-    this.selectedHotel, // Сделать selectedHotel nullable
+    required this.selectedHotel, // Сделать selectedHotel nullable
   }) : super(key: key);
 
-  Future<void> _selectHotel(BuildContext context) async {
-    HotelProvider hotelProvider =
+  Future<void> _navigateToHotelAboutPage(context) async {
+    final selectedHotelProvider =
         Provider.of<HotelProvider>(context, listen: false);
+    final selectedHotel = await selectedHotelProvider.getHotelByIndex();
+    selectedHotelProvider.selectHotel(selectedHotel!);
 
-    selectedHotel = await hotelProvider.getHotelByIndex();
-    hotelProvider.selectHotel(selectedHotel!);
+    // Теперь мы можем использовать навигацию без BuildContext в асинхронной функции
+    Navigator.pushNamed(context, '/hotel_about_page');
   }
 
   @override
@@ -49,11 +58,7 @@ class GridItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         splashColor: Theme.of(context).colorScheme.secondary,
         onTap: () async {
-          await _selectHotel(context);
-          Navigator.pushNamed(
-            context,
-            '/hotel_about_page',
-          );
+          await _navigateToHotelAboutPage(context);
         },
         child: Card(
           elevation: 5,
@@ -70,6 +75,14 @@ class GridItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       color: Colors.black,
                     ),
+                    // child: CachedNetworkImage(
+                    //   imageUrl: selectedHotel?.photos[1] ?? '',
+                    //   fit: BoxFit.cover,
+                    //   placeholder: (context, url) =>
+                    //       const CircularProgressIndicator(), // Круг загрузки во время загрузки изображения
+                    //   errorWidget: (context, url, error) => const Icon(Icons
+                    //       .error), // Отображение иконки ошибки при неудачной загрузке изображения
+                    // ),
                   ),
                 ),
               ),
@@ -105,13 +118,13 @@ class GridItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              selectedHotel!.name,
+                              selectedHotel?.name ?? '',
                             ),
                             Text(
-                              selectedHotel!.location,
+                              selectedHotel?.location ?? '',
                             ),
                             Text(
-                              selectedHotel!.nightPrice.toString(),
+                              selectedHotel?.nightPrice.toString() ?? '',
                             ),
                           ],
                         ),
