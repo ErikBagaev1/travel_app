@@ -28,12 +28,10 @@ class FirstBlockAboutHotel extends StatelessWidget {
           children: [
             AspectRatio(
               aspectRatio: 1.334,
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.black),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
                 child: Image.network(
-                  selectedHotel.photos[1], //Переделать
+                  selectedHotel.photos[1], // Путь к изображению
                   fit: BoxFit.cover,
                 ),
               ),

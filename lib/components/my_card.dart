@@ -20,6 +20,7 @@ class MyGrid extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return GridItem(
           selectedHotel: hotels[index],
+          index: index,
         );
       },
     );
@@ -28,17 +29,18 @@ class MyGrid extends StatelessWidget {
 
 class GridItem extends StatelessWidget {
   final Hotel? selectedHotel;
-
+  final int index;
   const GridItem({
     Key? key,
     required this.selectedHotel,
+    required this.index,
   }) : super(key: key);
 
-  Future<void> _navigateToHotelAboutPage(context) async {
+  Future<void> _navigateToHotelAboutPage({context, index}) async {
     final selectedHotelProvider =
         Provider.of<HotelProvider>(context, listen: false);
-    final selectedHotel = await selectedHotelProvider.getHotelByIndex();
-    selectedHotelProvider.selectHotel(selectedHotel!);
+
+    selectedHotelProvider.selectHotel(selectedHotelProvider.hotels[index]);
 
     Navigator.pushNamed(context, '/hotel_about_page');
   }
@@ -51,7 +53,7 @@ class GridItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         splashColor: Theme.of(context).colorScheme.secondary,
         onTap: () async {
-          await _navigateToHotelAboutPage(context);
+          await _navigateToHotelAboutPage(context: context, index: index);
         },
         child: Card(
           elevation: 5,
@@ -63,15 +65,16 @@ class GridItem extends StatelessWidget {
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(14.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.black,
-                      ),
+                  child: AspectRatio(
+                    aspectRatio: 1.334,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
                       child: Image.network(
                         selectedHotel?.photos[1] ?? '',
                         fit: BoxFit.cover,
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Expanded(
@@ -84,7 +87,7 @@ class GridItem extends StatelessWidget {
                     children: [
                       Row(
                         children: List.generate(
-                          (selectedHotel?.stars ?? 6) > 5 ? 5 : 1,
+                          (selectedHotel?.stars ?? 0),
                           (index) => const Icon(
                             Icons.star,
                             color: Color.fromRGBO(255, 215, 0, 1.0),
