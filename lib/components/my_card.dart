@@ -66,7 +66,7 @@ class GridItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: AspectRatio(
-                    aspectRatio: 1.334,
+                    aspectRatio: 1,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
