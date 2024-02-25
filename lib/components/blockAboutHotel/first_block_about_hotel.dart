@@ -26,15 +26,23 @@ class FirstBlockAboutHotel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(
+              height: 20,
+            ),
             AspectRatio(
               aspectRatio: 1.334,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  selectedHotel.photos[1], // Путь к изображению
-                  fit: BoxFit.cover,
-                ),
-              ),
+              child: PageView.builder(
+                  itemCount: selectedHotel.photos.length,
+                  pageSnapping: true,
+                  itemBuilder: (context, pagePosition) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        selectedHotel.photos[pagePosition],
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  }),
             ),
             const SizedBox(
               height: 10,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:social_network/components/blockAboutHotel/button_about_hotel.dart';
 import 'package:social_network/components/blockAboutHotel/first_block_about_hotel.dart';
 import 'package:social_network/components/blockAboutHotel/second_block_about_hotel.dart';
 import 'package:social_network/models/hotels_model.dart';
@@ -31,7 +32,8 @@ class HotelAbout extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              SecondBlockAboutHotel(selectedHotel: selectedHotel)
+              SecondBlockAboutHotel(selectedHotel: selectedHotel),
+              const ButtonAboutHotel()
             ],
           ),
         ],
