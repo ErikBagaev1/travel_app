@@ -6,6 +6,7 @@ import 'package:social_network/auth/login_on_register.dart';
 import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/pages/home_page.dart';
 import 'package:social_network/pages/hotel_about_page.dart';
+import 'package:social_network/pages/hotel_room_page.dart';
 import 'package:social_network/pages/hotels_page.dart';
 import 'package:social_network/pages/profile_page.dart';
 import 'package:social_network/provider/gender_provider.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           '/editing_page': (context) => const EditingPage(),
           '/hotels_page': (context) => const HotelsPage(),
           '/hotel_about_page': (context) => const HotelAbout(),
+          '/hotel_room_page': (context) => const HotelRoomPage(),
         },
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_network/components/blockAboutHotel/button_about_hotel.dart';
 import 'package:social_network/components/blockAboutHotel/first_block_about_hotel.dart';
 import 'package:social_network/components/blockAboutHotel/second_block_about_hotel.dart';
+import 'package:social_network/components/my_blue_button.dart';
 import 'package:social_network/models/hotels_model.dart';
 import 'package:social_network/provider/hotels_provider.dart';
 
@@ -33,7 +33,14 @@ class HotelAbout extends StatelessWidget {
                 height: 12,
               ),
               SecondBlockAboutHotel(selectedHotel: selectedHotel),
-              const ButtonAboutHotel()
+              const Padding(
+                padding:
+                    EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 8),
+                child: MyBlueButton(
+                  path: '/hotel_room_page',
+                  title: 'К выбору номера',
+                ),
+              ),
             ],
           ),
         ],
