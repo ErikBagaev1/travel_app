@@ -65,6 +65,7 @@ class _EditingPageState extends State<EditingPage> {
                 children: [
                   Expanded(
                     child: MyTextField(
+                      modelIndex: 'numberPassport',
                         padding: 10,
                         hintText: 'Серия паспорта',
                         obscureText: false,
@@ -72,6 +73,7 @@ class _EditingPageState extends State<EditingPage> {
                   ),
                   Expanded(
                     child: MyTextField(
+                      modelIndex:'seriesPassport' ,
                         padding: 10,
                         hintText: 'Номер паспорта',
                         obscureText: false,
@@ -83,6 +85,7 @@ class _EditingPageState extends State<EditingPage> {
                 height: 10,
               ),
               MyTextField(
+                modelIndex: 'lastName',
                   padding: 10,
                   hintText: 'Фамилия',
                   obscureText: false,
@@ -91,6 +94,7 @@ class _EditingPageState extends State<EditingPage> {
                 height: 10,
               ),
               MyTextField(
+                 modelIndex: 'firstName',
                   padding: 10,
                   hintText: 'Имя',
                   obscureText: false,
@@ -99,6 +103,7 @@ class _EditingPageState extends State<EditingPage> {
                 height: 10,
               ),
               MyTextField(
+                 modelIndex: 'fatherName',
                   padding: 10,
                   hintText: 'Отчество (как в паспорте)',
                   obscureText: false,
@@ -118,6 +123,7 @@ class _EditingPageState extends State<EditingPage> {
                 height: 10,
               ),
               MyTextField(
+                 modelIndex: 'countChildren',
                   padding: 10,
                   hintText: 'Количество детей',
                   obscureText: false,

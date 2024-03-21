@@ -11,6 +11,7 @@ import 'package:social_network/pages/hotels_page.dart';
 import 'package:social_network/pages/profile_page.dart';
 import 'package:social_network/provider/gender_provider.dart';
 import 'package:social_network/provider/hotels_provider.dart';
+import 'package:social_network/provider/person_data_provider.dart';
 import 'package:social_network/provider/user_data_provider.dart';
 import 'package:social_network/theme/dark_mode.dart';
 import 'package:social_network/theme/light_mode.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => UserDataProvider()),
         ChangeNotifierProvider(create: (context) => GenderProvider()),
+        ChangeNotifierProvider(create: (context) => PersonDataProvider()),
         ChangeNotifierProvider(
           create: (context) => HotelProvider(),
         ),

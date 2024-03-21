@@ -51,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                 ),
                 MyTextField(
+                   modelIndex: 'email',
                   padding: 0,
                   hintText: 'Email',
                   obscureText: false,
