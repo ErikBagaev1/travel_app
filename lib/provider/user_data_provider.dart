@@ -17,6 +17,10 @@ class UserDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUsersStream() {
+    return FirebaseFirestore.instance.collection('Users').snapshots();
+  }
+
   User? currentUser;
   Map<String, dynamic>? data;
 
