@@ -48,7 +48,7 @@ class MyDrawer extends StatelessWidget {
                 title: const Text('Эксурсии'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, '/hotels_page');
+                  Navigator.pushReplacementNamed(context, '/excursions_page');
                 },
               ),
             ),

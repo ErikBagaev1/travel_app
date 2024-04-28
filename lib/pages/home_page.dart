@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
         centerTitle: true,
-        title: const Text('Домашняя страница'),
+        title: const Text('Пользователи'),
       ),
       drawer: const MyDrawer(),
       body: Column(
@@ -34,20 +34,31 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              cursorColor: const Color.fromARGB(255, 1, 211, 243),
               controller: searchController,
               decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color.fromARGB(255, 1, 211, 243)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black),
+                ),
                 focusColor: Colors.black,
                 labelText: 'Поиск',
-                labelStyle: const TextStyle(color: Colors.black),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    setState(() {
-                      searchController.clear();
-                      searchQuery = '';
-                    });
-                  },
-                ),
+                labelStyle: const TextStyle(
+                    color: Color.fromARGB(255, 119, 118, 118), fontSize: 16),
+                // suffixIcon: IconButton(
+                //   icon: const Icon(Icons.clear),
+                //   onPressed: () {
+                //     setState(() {
+                //       searchController.clear();
+                //       searchQuery = '';
+                //     });
+                //   },
+                // ),
               ),
               onChanged: (value) {
                 setState(() {

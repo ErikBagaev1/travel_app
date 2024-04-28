@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:social_network/auth/auth.dart';
 import 'package:social_network/auth/login_on_register.dart';
 import 'package:social_network/pages/editing_page.dart';
+import 'package:social_network/pages/excursions_page.dart';
 import 'package:social_network/pages/home_page.dart';
 import 'package:social_network/pages/hotel_about_page.dart';
 import 'package:social_network/pages/hotel_room_page.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           '/home_page': (context) => const HomePage(),
           '/profile_page': (context) => const ProfilePage(),
           '/editing_page': (context) => const EditingPage(),
+          '/excursions_page': (context) => const ExcursionsPage(),
           '/hotels_page': (context) => const HotelsPage(),
           '/hotel_about_page': (context) => const HotelAbout(),
           '/hotel_room_page': (context) => const HotelRoomPage(),
