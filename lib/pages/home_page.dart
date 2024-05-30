@@ -50,15 +50,6 @@ class _HomePageState extends State<HomePage> {
                 labelText: 'Поиск',
                 labelStyle: const TextStyle(
                     color: Color.fromARGB(255, 119, 118, 118), fontSize: 16),
-                // suffixIcon: IconButton(
-                //   icon: const Icon(Icons.clear),
-                //   onPressed: () {
-                //     setState(() {
-                //       searchController.clear();
-                //       searchQuery = '';
-                //     });
-                //   },
-                // ),
               ),
               onChanged: (value) {
                 setState(() {
@@ -83,12 +74,19 @@ class _HomePageState extends State<HomePage> {
                 final List<DocumentSnapshot<Map<String, dynamic>>>
                     filteredUsers = snapshot.data!.docs.where((doc) {
                   final data = doc.data(); // Получаем данные документа
+                  final String? seriesPassport =
+                      data['seriesPassport'] as String?;
                   final String? firstName = data['firstName']
                       as String?; // Безопасная навигация по данным
                   final String? email = data['email']
                       as String?; // Безопасная навигация по данным
+
+                  final String? gender = data['gender'] as String?;
                   final String? passport = data['numberPassport']
                       as String?; // Безопасная навигация по данным
+                  final String? lastName = data['lastName'] as String?;
+                  final String? fatherName = data['fatherName'] as String?;
+
                   // Проверяем, содержится ли искомый текст в имени, email или passport пользователя
                   return firstName != null &&
                           firstName
@@ -101,6 +99,22 @@ class _HomePageState extends State<HomePage> {
                       passport != null &&
                           passport
                               .toLowerCase()
+                              .contains(searchQuery.toLowerCase()) ||
+                      lastName != null &&
+                          lastName
+                              .toLowerCase()
+                              .contains(searchQuery.toLowerCase()) ||
+                      fatherName != null &&
+                          fatherName
+                              .toLowerCase()
+                              .contains(searchQuery.toLowerCase()) ||
+                      seriesPassport != null &&
+                          seriesPassport
+                              .toLowerCase()
+                              .contains(searchQuery.toLowerCase()) ||
+                      gender != null &&
+                          gender
+                              .toLowerCase()
                               .contains(searchQuery.toLowerCase());
                 }).toList();
                 return ListView.builder(
@@ -108,19 +122,66 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     final user = filteredUsers[index]
                         .data()!; // Получаем данные пользователя
-                    return ListTile(
-                      title: Text(user['firstName'] ??
-                          ''), // Используем пустую строку вместо null
-                      subtitle: Text(
-                          "паспорт: ${user['numberPassport'] ?? ''}"), // Используем пустую строку вместо null
-                      leading: SizedBox(
-                        width: 180,
-                        child: Text(
-                          user['email'] ?? '',
-                          style: const TextStyle(fontSize: 15),
+                    return Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                      ), // Используем пустую строку вместо null
-                      // Добавьте другие поля пользователя по вашему выбору
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    user['lastName'] ?? 'неизвестно',
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    user['firstName'] ?? 'неизвестно',
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    user['fatherName'] ?? 'неизвестно',
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                "Паспортные данные:  ${user['seriesPassport'] ?? 'неизвестно'}  ${user['numberPassport'] ?? 'неизвестно'}",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                "Пол:  ${user['gender'] ?? 'неизвестно'}",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                "email:  ${user['email'] ?? 'неизвестно'}",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     );
                   },
                 );

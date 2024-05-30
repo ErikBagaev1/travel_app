@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Excursions {
   final String name;
   final String description;
-  final String date;
+  final Timestamp date;
   final int price;
   final List<String> photos;
 

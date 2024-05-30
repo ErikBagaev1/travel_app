@@ -10,13 +10,14 @@ import 'package:social_network/pages/hotel_about_page.dart';
 import 'package:social_network/pages/hotel_room_page.dart';
 import 'package:social_network/pages/hotels_page.dart';
 import 'package:social_network/pages/profile_page.dart';
-import 'package:social_network/provider/gender_provider.dart';
-import 'package:social_network/provider/hotels_provider.dart';
-import 'package:social_network/provider/user_data_provider.dart';
-import 'package:social_network/theme/dark_mode.dart';
-import 'package:social_network/theme/light_mode.dart';
 
 import 'firebase_options.dart';
+import 'provider/excursions_provider.dart';
+import 'provider/gender_provider.dart';
+import 'provider/hotels_provider.dart';
+import 'provider/user_data_provider.dart';
+import 'theme/dark_mode.dart';
+import 'theme/light_mode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => UserDataProvider()),
         ChangeNotifierProvider(create: (context) => GenderProvider()),
+        ChangeNotifierProvider(create: (context) => ExcursionsProvider()),
         ChangeNotifierProvider(
           create: (context) => HotelProvider(),
         ),
