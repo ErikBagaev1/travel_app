@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:social_network/models/hotels_model.dart';
 
+import '../models/booking_model.dart';
+import '../models/room_model.dart';
+
 class HotelProvider extends ChangeNotifier {
   Hotel? _selectedHotel;
   Map<String, dynamic>? _roomData;
@@ -9,8 +12,21 @@ class HotelProvider extends ChangeNotifier {
   Map<String, dynamic>? get roomData => _roomData;
   Hotel? get selectedHotel => _selectedHotel;
 
-  void selectHotel(Hotel hotel) {
+  List<RoomModel> rooms = [];
+  final List<BookingModel> _bookings = [];
+
+  // Other methods and properties
+
+  void addBooking(BookingModel booking) {
+    _bookings.add(booking);
+
+    notifyListeners();
+  }
+
+  List<BookingModel> get bookings => _bookings;
+  void selectHotel(Hotel hotel) async {
     _selectedHotel = hotel;
+    // await fetchRooms(hotel.id); // Fetch rooms after selecting the hotel
     notifyListeners();
   }
 
@@ -18,7 +34,7 @@ class HotelProvider extends ChangeNotifier {
 
   List<Hotel> get hotels => _hotels;
 
-  // Метод для предварительной загрузки данных
+  // Method to initialize data
   void initializeData() async {
     try {
       QuerySnapshot querySnapshot =
@@ -78,4 +94,24 @@ class HotelProvider extends ChangeNotifier {
       throw Exception('Ошибка при получении данных об отеле: $error');
     }
   }
+
+  // Future<List<RoomModel>> fetchRooms(int hotelId) async {
+  //   try {
+  //     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+  //         .instance
+  //         .collection('Room')
+  //         .where('luxe', isEqualTo: hotelId)
+  //         .get();
+
+  //     if (snapshot.docs.isNotEmpty) {
+  //       List<RoomModel> rooms =
+  //           snapshot.docs.map((doc) => RoomModel.fromMap(doc.data())).toList();
+  //       return rooms;
+  //     } else {
+  //       throw Exception('Данные об отелях не найдены');
+  //     }
+  //   } catch (error) {
+  //     throw Exception('Ошибка при получении данных об отеле: $error');
+  //   }
+  // }
 }

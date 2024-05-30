@@ -83,8 +83,7 @@ class MyRoomCard extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const MyBlueButton(
-                  path: '/hotel_room_page', title: 'Выбрать номер')
+              const MyBlueButton(path: '/booking_page', title: 'Выбрать номер')
             ],
           ),
         ),

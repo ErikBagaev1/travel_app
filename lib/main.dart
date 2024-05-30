@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_network/auth/auth.dart';
 import 'package:social_network/auth/login_on_register.dart';
+import 'package:social_network/pages/booking_page.dart';
 import 'package:social_network/pages/editing_page.dart';
 import 'package:social_network/pages/excursions_page.dart';
 import 'package:social_network/pages/home_page.dart';
@@ -10,7 +11,6 @@ import 'package:social_network/pages/hotel_about_page.dart';
 import 'package:social_network/pages/hotel_room_page.dart';
 import 'package:social_network/pages/hotels_page.dart';
 import 'package:social_network/pages/profile_page.dart';
-
 import 'firebase_options.dart';
 import 'provider/excursions_provider.dart';
 import 'provider/gender_provider.dart';
@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
           '/hotels_page': (context) => const HotelsPage(),
           '/hotel_about_page': (context) => const HotelAbout(),
           '/hotel_room_page': (context) => const HotelRoomPage(),
+          '/booking_page': (context) => const BookingPage(),
         },
       ),
     );

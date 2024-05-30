@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_network/components/my_room_card.dart';
-import 'package:social_network/models/hotels_model.dart';
 import 'package:social_network/provider/hotels_provider.dart';
+
+import '../models/hotels_model.dart';
 
 class HotelRoomPage extends StatelessWidget {
   const HotelRoomPage({super.key});
@@ -10,8 +11,10 @@ class HotelRoomPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HotelProvider hotelProvider = Provider.of<HotelProvider>(context);
+    // UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
     Hotel? selectedHotel = hotelProvider.selectedHotel;
     final String hotelName = selectedHotel?.name ?? '';
+
     return Scaffold(
       backgroundColor: const Color(0xFFF6F6F9),
       appBar: AppBar(
