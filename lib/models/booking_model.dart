@@ -3,6 +3,8 @@ class BookingModel {
   final String checkOut;
   final String guestName;
   final String phone;
+  final String passportNumber;
+  final String passportSeries;
   final String userId;
 
   BookingModel({
@@ -10,6 +12,8 @@ class BookingModel {
     required this.checkOut,
     required this.guestName,
     required this.phone,
+    required this.passportNumber,
+    required this.passportSeries,
     required this.userId,
   });
 }

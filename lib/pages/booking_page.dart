@@ -15,8 +15,14 @@ class _BookingPageState extends State<BookingPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _checkInController = TextEditingController();
   final TextEditingController _checkOutController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _middleNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passportNumberController =
+      TextEditingController();
+  final TextEditingController _passportSeriesController =
+      TextEditingController();
 
   Future<void> _selectDate(TextEditingController controller) async {
     DateTime? selectedDate = await showDatePicker(
@@ -28,13 +34,12 @@ class _BookingPageState extends State<BookingPage> {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Colors.blue, // Цвет акцентов (выбранная дата)
-              onPrimary: Colors.white, // Цвет текста на кнопках
-              onSurface: Colors.black, // Цвет текста на датах
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              onSurface: Colors.black,
             ),
             buttonTheme: const ButtonThemeData(
-              textTheme: ButtonTextTheme
-                  .primary, // Цвет текста на кнопках "OK" и "CANCEL"
+              textTheme: ButtonTextTheme.primary,
             ),
           ),
           child: child!,
@@ -57,131 +62,222 @@ class _BookingPageState extends State<BookingPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Бронирование номера'),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _checkInController,
-                decoration: const InputDecoration(
-                  labelText: 'Дата заезда',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _checkInController,
+                  cursorColor: Colors.blue,
+                  decoration: const InputDecoration(
+                    labelText: 'Дата заезда',
+                    focusColor: Colors.black,
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите дату заезда';
+                    }
+                    return null;
+                  },
+                  onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    await _selectDate(_checkInController);
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите дату заезда';
-                  }
-                  return null;
-                },
-                onTap: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  await _selectDate(_checkInController);
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _checkOutController,
-                decoration: const InputDecoration(
-                  labelText: 'Дата выезда',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _checkOutController,
+                  cursorColor: Colors.blue,
+                  decoration: const InputDecoration(
+                    labelText: 'Дата выезда',
+                    focusColor: Colors.black,
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите дату выезда';
+                    }
+                    return null;
+                  },
+                  onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    await _selectDate(_checkOutController);
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите дату выезда';
-                  }
-                  return null;
-                },
-                onTap: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  await _selectDate(_checkOutController);
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'ФИО жильца',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _lastNameController,
+                  cursorColor: Colors.blue,
+                  decoration: const InputDecoration(
+                    labelText: 'Фамилия',
+                    focusColor: Colors.black,
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите фамилию';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите ФИО';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Номер телефона',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                const SizedBox(height: 10),
+                TextFormField(
+                  cursorColor: Colors.blue,
+                  controller: _firstNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Имя',
+                    focusColor: Colors.black,
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите имя';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите номер телефона';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Цвет кнопки
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _middleNameController,
+                  cursorColor: Colors.blue,
+                  decoration: const InputDecoration(
+                    labelText: 'Отчество',
+                    focusColor: Colors.black,
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите отчество';
+                    }
+                    return null;
+                  },
                 ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    BookingModel booking = BookingModel(
-                      checkIn: _checkInController.text,
-                      checkOut: _checkOutController.text,
-                      guestName: _nameController.text,
-                      phone: _phoneController.text,
-                      userId: currentUser?.uid ??
-                          '', // Используем ID текущего пользователя
-                    );
-                    Provider.of<HotelProvider>(context, listen: false)
-                        .addBooking(booking);
+                const SizedBox(height: 10),
+                TextFormField(
+                  cursorColor: Colors.blue,
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Номер телефона',
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusColor: Colors.black,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите номер телефона';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  cursorColor: Colors.blue,
+                  controller: _passportNumberController,
+                  decoration: const InputDecoration(
+                    labelText: 'Номер паспорта',
+                    focusColor: Colors.black,
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите номер паспорта';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  cursorColor: Colors.blue,
+                  controller: _passportSeriesController,
+                  decoration: const InputDecoration(
+                    labelText: 'Серия паспорта',
+                    focusColor: Colors.black,
+                    labelStyle: TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите серию паспорта';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      BookingModel booking = BookingModel(
+                        checkIn: _checkInController.text,
+                        checkOut: _checkOutController.text,
+                        guestName:
+                            "${_lastNameController.text} ${_firstNameController.text} ${_middleNameController.text}",
+                        phone: _phoneController.text,
+                        passportNumber: _passportNumberController.text,
+                        passportSeries: _passportSeriesController.text,
+                        userId: currentUser?.uid ?? '',
+                      );
+                      Provider.of<HotelProvider>(context, listen: false)
+                          .addBooking(booking);
 
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Успех'),
-                          content:
-                              const Text('Бронирование успешно добавлено.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text(
-                                'OK',
-                                style: TextStyle(color: Colors.black),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Успех'),
+                            content:
+                                const Text('Бронирование успешно добавлено.'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text(
+                                  'OK',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.pop(context);
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pop(); // Закрыть всплывающее окно
-                                Navigator.pop(
-                                    context); // Вернуться на предыдущую страницу
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
-                child: const Text('Забронировать'),
-              ),
-            ],
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
+                  child: const Text('Забронировать'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
