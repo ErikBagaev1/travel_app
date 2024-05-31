@@ -95,23 +95,29 @@ class HotelProvider extends ChangeNotifier {
     }
   }
 
-  // Future<List<RoomModel>> fetchRooms(int hotelId) async {
-  //   try {
-  //     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-  //         .instance
-  //         .collection('Room')
-  //         .where('luxe', isEqualTo: hotelId)
-  //         .get();
+  Future<void> fetchRooms(int hotelId) async {
+    try {
+      rooms.clear();
 
-  //     if (snapshot.docs.isNotEmpty) {
-  //       List<RoomModel> rooms =
-  //           snapshot.docs.map((doc) => RoomModel.fromMap(doc.data())).toList();
-  //       return rooms;
-  //     } else {
-  //       throw Exception('Данные об отелях не найдены');
-  //     }
-  //   } catch (error) {
-  //     throw Exception('Ошибка при получении данных об отеле: $error');
-  //   }
-  // }
+      // Получаем ссылку на коллекцию Room
+      CollectionReference roomCollection =
+          FirebaseFirestore.instance.collection('Room');
+
+      // Запрашиваем документы в коллекции, фильтруя по hotelId
+      QuerySnapshot roomDocs =
+          await roomCollection.where('hotel_id', isEqualTo: hotelId).get();
+
+      // Проходимся по каждому документу в коллекции и добавляем его в список rooms
+      for (var roomDoc in roomDocs.docs) {
+        Map<String, dynamic> data = roomDoc.data() as Map<String, dynamic>;
+
+        rooms.add(RoomModel.fromMap(data));
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print("Ошибка при получении данных о номерах: $error");
+      throw Exception('Ошибка при получении данных о номерах: $error');
+    }
+  }
 }

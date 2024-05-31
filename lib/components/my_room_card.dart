@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:social_network/components/my_blue_button.dart';
 import 'package:social_network/components/my_grid_comfort.dart';
+import 'package:social_network/models/room_model.dart';
 
 class MyRoomCard extends StatelessWidget {
-  const MyRoomCard({super.key});
+  final RoomModel room;
+
+  const MyRoomCard({super.key, required this.room});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +33,20 @@ class MyRoomCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(20.0),
+                      image: DecorationImage(
+                        image: NetworkImage(room.photo.isNotEmpty
+                            ? room.photo[0]
+                            : 'https://via.placeholder.com/150'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ),
-              const Text(
-                'Cтандартный с видом на отель',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+              Text(
+                room.name,
+                style:
+                    const TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
               ),
               const SizedBox(
                 height: 15,
@@ -54,22 +64,22 @@ class MyRoomCard extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'от 7777  ₽',
-                    style: TextStyle(
+                    'от ${room.price} ₽',
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 30,
                       fontFamily: 'SF Pro Display',
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text(
+                  const Text(
                     'за тур с перелётом',
                     style: TextStyle(
                       color: Color(0xFF828796),
@@ -83,7 +93,10 @@ class MyRoomCard extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const MyBlueButton(path: '/booking_page', title: 'Выбрать номер')
+              const MyBlueButton(
+                path: '/booking_page',
+                title: 'Выбрать номер',
+              ),
             ],
           ),
         ),
